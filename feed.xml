@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-05-29T10:38:10+00:00</updated><id>/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2022/05/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-05-29T10:38:00+00:00</published><updated>2022-05-29T10:38:00+00:00</updated><id>/jekyll/update/2022/05/29/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2022/05/29/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-05-29T11:49:28+00:00</updated><id>/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">First github page blog</title><link href="/jiang/jingwei/2022/05/29/first-github-page-blog.html" rel="alternate" type="text/html" title="First github page blog" /><published>2022-05-29T11:21:00+00:00</published><updated>2022-05-29T11:21:00+00:00</updated><id>/jiang/jingwei/2022/05/29/first-github-page-blog</id><content type="html" xml:base="/jiang/jingwei/2022/05/29/first-github-page-blog.html"><![CDATA[<p>花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。</p>
+
+<p>这一篇顺便记录一下搭博客的时候遇到的坑。</p>
+
+<h4 id="github-codespaces">Github CodeSpaces</h4>
+
+<p>很久之前注册了<code class="language-plaintext highlighter-rouge">Code Spaces</code>的测试计划。最近收到了进入测试计划的邮件，就想着用<code class="language-plaintext highlighter-rouge">Code Spcaes</code>去搭建和更新一个博客，同时也给自己留了个坑。</p>
+
+<h4 id="jekyll">Jekyll</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Jekyll</code>（不知道怎么念）是github默认的Pages模板。执行<code class="language-plaintext highlighter-rouge">jekyll b</code>生成静态的网站。</p>
+
+<h4 id="搭建博客的整体思路">搭建博客的整体思路</h4>
+
+<p>整体的思路来自油管上的这个<a href="https://www.youtube.com/watch?v=LIFvgrRxdt4">视频</a>。</p>
+<ul>
+  <li>创建两个repo。一个保存博客的源码，一个保存由工具生成的静态网站代码。</li>
+  <li>通过<code class="language-plaintext highlighter-rouge">git</code>的<code class="language-plaintext highlighter-rouge">submodule</code>功能，在一个文件夹下，同时管理两个repo。</li>
+</ul>
+
+<h4 id="坑">坑</h4>
+
+<p>不知什么原因，在<code class="language-plaintext highlighter-rouge">Code Spaces</code>中，管理<code class="language-plaintext highlighter-rouge">submodule</code>的时候push总是失败，提示没有权限。</p>
+
+<h4 id="摸爬滚打">摸爬滚打</h4>
+
+<ul>
+  <li>尝试配置<code class="language-plaintext highlighter-rouge">user.name</code>和<code class="language-plaintext highlighter-rouge">user.email</code></li>
+  <li>尝试配置<code class="language-plaintext highlighter-rouge">ssh key</code></li>
+  <li>尝试配置remote url为<code class="language-plaintext highlighter-rouge">user@github.com/reponame.git</code></li>
+</ul>
+
+<h4 id="最终的解决方案">最终的解决方案</h4>
+
+<p>只找到了一个能临时解决问题的方案。在<code class="language-plaintext highlighter-rouge">github - settings - developer settings - personal access tokens</code>中生成一个新的token，然后修改remote url为<code class="language-plaintext highlighter-rouge">token@github.com/reponame.git</code></p>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2022/05/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-05-29T10:38:00+00:00</published><updated>2022-05-29T10:38:00+00:00</updated><id>/jekyll/update/2022/05/29/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2022/05/29/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
 
 <p>Jekyll requires blog post files to be named according to the following format:</p>
 
