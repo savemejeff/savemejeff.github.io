@@ -1,14 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-05-29T11:49:28+00:00</updated><id>/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">First github page blog</title><link href="/jiang/jingwei/2022/05/29/first-github-page-blog.html" rel="alternate" type="text/html" title="First github page blog" /><published>2022-05-29T11:21:00+00:00</published><updated>2022-05-29T11:21:00+00:00</updated><id>/jiang/jingwei/2022/05/29/first-github-page-blog</id><content type="html" xml:base="/jiang/jingwei/2022/05/29/first-github-page-blog.html"><![CDATA[<p>花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://savemejeff.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://savemejeff.github.io//" rel="alternate" type="text/html" /><updated>2022-05-30T14:21:18+00:00</updated><id>https://savemejeff.github.io//feed.xml</id><title type="html">Jiang Jingwei’s Blog</title><subtitle>码龄一年半, 如有谬误, 烦请指正.</subtitle><entry><title type="html">First github page blog</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html" rel="alternate" type="text/html" title="First github page blog" /><published>2022-05-29T11:21:00+00:00</published><updated>2022-05-29T11:21:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"><![CDATA[<p>花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。</p>
 
 <p>这一篇顺便记录一下搭博客的时候遇到的坑。</p>
-
-<h4 id="github-codespaces">Github CodeSpaces</h4>
-
-<p>很久之前注册了<code class="language-plaintext highlighter-rouge">Code Spaces</code>的测试计划。最近收到了进入测试计划的邮件，就想着用<code class="language-plaintext highlighter-rouge">Code Spcaes</code>去搭建和更新一个博客，同时也给自己留了个坑。</p>
-
-<h4 id="jekyll">Jekyll</h4>
-
-<p><code class="language-plaintext highlighter-rouge">Jekyll</code>（不知道怎么念）是github默认的Pages模板。执行<code class="language-plaintext highlighter-rouge">jekyll b</code>生成静态的网站。</p>
 
 <h4 id="搭建博客的整体思路">搭建博客的整体思路</h4>
 
@@ -18,9 +10,20 @@
   <li>通过<code class="language-plaintext highlighter-rouge">git</code>的<code class="language-plaintext highlighter-rouge">submodule</code>功能，在一个文件夹下，同时管理两个repo。</li>
 </ul>
 
+<h4 id="github-codespaces">Github CodeSpaces</h4>
+
+<p>很久之前注册了<code class="language-plaintext highlighter-rouge">Code Spaces</code>的测试计划。最近收到了进入测试计划的邮件，就想着用<code class="language-plaintext highlighter-rouge">Code Spcaes</code>去搭建和更新一个博客，同时也给自己留了个坑。</p>
+
+<h4 id="jekyll">Jekyll</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Jekyll</code>（不知道怎么念）是github默认的Pages模板。执行<code class="language-plaintext highlighter-rouge">jekyll b</code>生成静态的网站。</p>
+
 <h4 id="坑">坑</h4>
 
-<p>不知什么原因，在<code class="language-plaintext highlighter-rouge">Code Spaces</code>中，管理<code class="language-plaintext highlighter-rouge">submodule</code>的时候push总是失败，提示没有权限。</p>
+<ul>
+  <li>不知什么原因，在<code class="language-plaintext highlighter-rouge">Code Spaces</code>中，管理<code class="language-plaintext highlighter-rouge">submodule</code>的时候push总是失败，提示没有权限。</li>
+  <li>Github Pages在选择theme之前没有生效。</li>
+</ul>
 
 <h4 id="摸爬滚打">摸爬滚打</h4>
 
@@ -32,7 +35,7 @@
 
 <h4 id="最终的解决方案">最终的解决方案</h4>
 
-<p>只找到了一个能临时解决问题的方案。在<code class="language-plaintext highlighter-rouge">github - settings - developer settings - personal access tokens</code>中生成一个新的token，然后修改remote url为<code class="language-plaintext highlighter-rouge">token@github.com/reponame.git</code></p>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2022/05/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-05-29T10:38:00+00:00</published><updated>2022-05-29T10:38:00+00:00</updated><id>/jekyll/update/2022/05/29/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2022/05/29/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<p>只找到了一个能临时解决问题的方案。在<code class="language-plaintext highlighter-rouge">github - settings - developer settings - personal access tokens</code>中生成一个新的token，然后修改remote url为<code class="language-plaintext highlighter-rouge">token@github.com/reponame.git</code></p>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="https://savemejeff.github.io//jekyll/update/2022/05/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-05-29T10:38:00+00:00</published><updated>2022-05-29T10:38:00+00:00</updated><id>https://savemejeff.github.io//jekyll/update/2022/05/29/welcome-to-jekyll</id><content type="html" xml:base="https://savemejeff.github.io//jekyll/update/2022/05/29/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
 
 <p>Jekyll requires blog post files to be named according to the following format:</p>
 
@@ -48,4 +51,56 @@
 <span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
 <span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry><entry><title type="html">C#中的ref关键字</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/20/ref-keyword-in-csharp.html" rel="alternate" type="text/html" title="C#中的ref关键字" /><published>2022-05-20T04:19:00+00:00</published><updated>2022-05-20T04:19:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/20/ref-keyword-in-csharp</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/20/ref-keyword-in-csharp.html"><![CDATA[<p>首先看微软的文档中是怎么说的。</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">ref</code> 关键字指示按引用传递值。 它用在四种不同的上下文中：</p>
+</blockquote>
+
+<p>那么什么叫按引用传递值呢？</p>
+
+<p>在C#中，所有类型的变量（无论值类型还是引用类型），都是按值传递的。让我们先看看按值传递是怎么工作的。</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">b</span> <span class="p">=</span> <span class="m">20</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"a: </span><span class="p">{</span><span class="n">a</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"b: </span><span class="p">{</span><span class="n">b</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+<span class="c1">// Output: </span>
+<span class="c1">// a: 10</span>
+<span class="c1">// b: 20</span>
+</code></pre></div></div>
+<p>值传递时，改变b的值并不会影响a。</p>
+
+<p>下面看看按引用传递是如何工作的。</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="k">ref</span> <span class="kt">int</span> <span class="n">b</span> <span class="p">=</span> <span class="k">ref</span> <span class="n">a</span><span class="p">;</span>
+<span class="n">b</span> <span class="p">=</span> <span class="m">20</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"a: </span><span class="p">{</span><span class="n">a</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"b: </span><span class="p">{</span><span class="n">b</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+<span class="c1">// Output: </span>
+<span class="c1">// a: 20</span>
+<span class="c1">// b: 20</span>
+</code></pre></div></div>
+<p>按引用传递时，对b的赋值会影响变量a，因为b是一个指向变量a的引用。</p>
+
+<p>学过C语言的同学是不是有种似曾相识的感觉？</p>
+
+<pre><code class="language-C">int a = 10;
+int* b = &amp;a;
+*b = 20;
+printf("a: %d", a);
+printf("b: %d", *b);
+// Output:
+// a: 20
+// b: 20
+</code></pre>
+<p>虽然不是相同的概念，但是ref的功能其实与C语言中的指针十分相似。</p>
+
+<blockquote>
+  <p>在方法签名和方法调用中，按引用将参数传递给方法。
+在方法签名中，按引用将值返回给调用方。
+在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。
+在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
+</blockquote>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[首先看微软的文档中是怎么说的。]]></summary></entry></feed>
