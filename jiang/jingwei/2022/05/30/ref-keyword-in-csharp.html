@@ -131,11 +131,37 @@ printf("b: %d", *b);
 <span class="k">ref</span> <span class="kt">var</span> <span class="k">struct</span> <span class="err">=</span> <span class="nc">ref</span> <span class="nf">GetStruct</span><span class="p">();</span>
 <span class="c1">// 按引用将值返回一个复杂的结构体，能够有效减小开销。</span>
 </code></pre></div></div>
+<p>下面这两个用法还没看明白，等看明白了再补一个。</p>
 
 <blockquote>
-  <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。
-在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
+  <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。</p>
 </blockquote>
+
+<blockquote>
+  <p>在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
+</blockquote>
+
+<p>另外还有两个关键字 <code class="language-plaintext highlighter-rouge">in</code> 和 <code class="language-plaintext highlighter-rouge">out</code> ，与 <code class="language-plaintext highlighter-rouge">ref</code> 比较相似。</p>
+
+<p>不同之处在于 <code class="language-plaintext highlighter-rouge">in</code> 只能向被调用的方法传递引用，而在被调用的方法中，被<code class="language-plaintext highlighter-rouge">in</code>修饰的参数是只读的。而 <code class="language-plaintext highlighter-rouge">out</code> 只能从被调用的方法向方法的调用方传递引用。</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="k">void</span> <span class="nf">InMethod</span><span class="p">(</span><span class="k">in</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">num</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">InMethod</span><span class="p">(</span><span class="k">in</span> <span class="n">n</span><span class="p">);</span>
+<span class="c1">// error CS8331: Cannot assign to variable 'in int' because it is a readonly variable</span>
+<span class="c1">// in 参数被视为只读。</span>
+
+<span class="k">void</span> <span class="nf">OutMethod</span><span class="p">(</span><span class="k">out</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">num</span><span class="p">++;</span>
+<span class="p">}</span>
+<span class="nf">OutMethod</span><span class="p">(</span><span class="k">out</span> <span class="n">n</span><span class="p">);</span>
+<span class="c1">// error CS0269: Use of unassigned out parameter 'num'</span>
+<span class="c1">// out 参数被视为未初始化的变量。</span>
+</code></pre></div></div>
 
   </div><a class="u-url" href="/jiang/jingwei/2022/05/30/ref-keyword-in-csharp.html" hidden></a>
 </article>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://savemejeff.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://savemejeff.github.io//" rel="alternate" type="text/html" /><updated>2022-05-31T04:18:47+00:00</updated><id>https://savemejeff.github.io//feed.xml</id><title type="html">Jiang Jingwei’s Blog</title><subtitle>码龄一年半, 如有谬误, 烦请指正.</subtitle><entry><title type="html">C#中的ref关键字</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp.html" rel="alternate" type="text/html" title="C#中的ref关键字" /><published>2022-05-30T04:19:00+00:00</published><updated>2022-05-30T04:19:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp.html"><![CDATA[<p>首先看微软的文档中是怎么说的。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://savemejeff.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://savemejeff.github.io//" rel="alternate" type="text/html" /><updated>2022-05-31T13:40:51+00:00</updated><id>https://savemejeff.github.io//feed.xml</id><title type="html">Jiang Jingwei’s Blog</title><subtitle>码龄一年半, 如有谬误, 烦请指正.</subtitle><entry><title type="html">C#中的ref关键字</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp.html" rel="alternate" type="text/html" title="C#中的ref关键字" /><published>2022-05-30T04:19:00+00:00</published><updated>2022-05-30T04:19:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/30/ref-keyword-in-csharp.html"><![CDATA[<p>首先看微软的文档中是怎么说的。</p>
 
 <blockquote>
   <p><code class="language-plaintext highlighter-rouge">ref</code> 关键字指示按引用传递值。 它用在四种不同的上下文中：</p>
@@ -82,11 +82,37 @@ printf("b: %d", *b);
 <span class="k">ref</span> <span class="kt">var</span> <span class="k">struct</span> <span class="err">=</span> <span class="nc">ref</span> <span class="nf">GetStruct</span><span class="p">();</span>
 <span class="c1">// 按引用将值返回一个复杂的结构体，能够有效减小开销。</span>
 </code></pre></div></div>
+<p>下面这两个用法还没看明白，等看明白了再补一个。</p>
 
 <blockquote>
-  <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。
-在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
-</blockquote>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[首先看微软的文档中是怎么说的。]]></summary></entry><entry><title type="html">First github page blog</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html" rel="alternate" type="text/html" title="First github page blog" /><published>2022-05-29T11:21:00+00:00</published><updated>2022-05-29T11:21:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"><![CDATA[<p>花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。</p>
+  <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。</p>
+</blockquote>
+
+<blockquote>
+  <p>在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
+</blockquote>
+
+<p>另外还有两个关键字 <code class="language-plaintext highlighter-rouge">in</code> 和 <code class="language-plaintext highlighter-rouge">out</code> ，与 <code class="language-plaintext highlighter-rouge">ref</code> 比较相似。</p>
+
+<p>不同之处在于 <code class="language-plaintext highlighter-rouge">in</code> 只能向被调用的方法传递引用，而在被调用的方法中，被<code class="language-plaintext highlighter-rouge">in</code>修饰的参数是只读的。而 <code class="language-plaintext highlighter-rouge">out</code> 只能从被调用的方法向方法的调用方传递引用。</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="k">void</span> <span class="nf">InMethod</span><span class="p">(</span><span class="k">in</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">num</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nf">InMethod</span><span class="p">(</span><span class="k">in</span> <span class="n">n</span><span class="p">);</span>
+<span class="c1">// error CS8331: Cannot assign to variable 'in int' because it is a readonly variable</span>
+<span class="c1">// in 参数被视为只读。</span>
+
+<span class="k">void</span> <span class="nf">OutMethod</span><span class="p">(</span><span class="k">out</span> <span class="kt">int</span> <span class="n">num</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">num</span><span class="p">++;</span>
+<span class="p">}</span>
+<span class="nf">OutMethod</span><span class="p">(</span><span class="k">out</span> <span class="n">n</span><span class="p">);</span>
+<span class="c1">// error CS0269: Use of unassigned out parameter 'num'</span>
+<span class="c1">// out 参数被视为未初始化的变量。</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="Jiang" /><category term="Jingwei" /><summary type="html"><![CDATA[首先看微软的文档中是怎么说的。]]></summary></entry><entry><title type="html">First github page blog</title><link href="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html" rel="alternate" type="text/html" title="First github page blog" /><published>2022-05-29T11:21:00+00:00</published><updated>2022-05-29T11:21:00+00:00</updated><id>https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog</id><content type="html" xml:base="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"><![CDATA[<p>花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。</p>
 
 <p>这一篇顺便记录一下搭博客的时候遇到的坑。</p>
 
