@@ -87,6 +87,11 @@ printf("b: %d", *b);
 <blockquote>
   <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。</p>
 </blockquote>
+<p>下面这两个用法还没看明白，等看明白了再补一个。</p>
+
+<blockquote>
+  <p>在成员正文中，指示引用返回值是否作为调用方欲修改的引用被存储在本地。 或指示局部变量按引用访问另一个值。</p>
+</blockquote>
 
 <blockquote>
   <p>在 <code class="language-plaintext highlighter-rouge">struct</code> 声明中，声明 <code class="language-plaintext highlighter-rouge">ref struct</code> 或 <code class="language-plaintext highlighter-rouge">readonly ref struct</code>。</p>
