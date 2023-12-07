@@ -7,17 +7,17 @@
 <meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="First github page blog" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。" />
-<meta property="og:description" content="花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。" />
+<meta name="description" content="花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。 这一篇顺便记录一下搭博客的时候遇到的坑。 搭建博客的整体思路 整体的思路来自油管上的这个视频。 创建两个repo。一个保存博客的源码，一个保存由工具生成的静态网站代码。 通过git的submodule功能，在一个文件夹下，同时管理两个repo。 Github CodeSpaces 很久之前注册了Code Spaces的测试计划。最近收到了进入测试计划的邮件，就想着用Code Spcaes去搭建和更新一个博客，同时也给自己留了个坑。 Jekyll Jekyll（不知道怎么念）是github默认的Pages模板。执行jekyll b生成静态的网站。 坑 不知什么原因，在Code Spaces中，管理submodule的时候push总是失败，提示没有权限。 Github Pages在选择theme之前没有生效。 摸爬滚打 尝试配置user.name和user.email 尝试配置ssh key 尝试配置remote url为user@github.com/reponame.git 最终的解决方案 只找到了一个能临时解决问题的方案。在github - settings - developer settings - personal access tokens中生成一个新的token，然后修改remote url为token@github.com/reponame.git" />
+<meta property="og:description" content="花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。 这一篇顺便记录一下搭博客的时候遇到的坑。 搭建博客的整体思路 整体的思路来自油管上的这个视频。 创建两个repo。一个保存博客的源码，一个保存由工具生成的静态网站代码。 通过git的submodule功能，在一个文件夹下，同时管理两个repo。 Github CodeSpaces 很久之前注册了Code Spaces的测试计划。最近收到了进入测试计划的邮件，就想着用Code Spcaes去搭建和更新一个博客，同时也给自己留了个坑。 Jekyll Jekyll（不知道怎么念）是github默认的Pages模板。执行jekyll b生成静态的网站。 坑 不知什么原因，在Code Spaces中，管理submodule的时候push总是失败，提示没有权限。 Github Pages在选择theme之前没有生效。 摸爬滚打 尝试配置user.name和user.email 尝试配置ssh key 尝试配置remote url为user@github.com/reponame.git 最终的解决方案 只找到了一个能临时解决问题的方案。在github - settings - developer settings - personal access tokens中生成一个新的token，然后修改remote url为token@github.com/reponame.git" />
 <link rel="canonical" href="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html" />
 <meta property="og:url" content="https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html" />
 <meta property="og:site_name" content="Jiang Jingwei’s Blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-05-29T11:21:00+00:00" />
+<meta property="article:published_time" content="2022-05-29T19:21:00+08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="First github page blog" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-05-29T11:21:00+00:00","datePublished":"2022-05-29T11:21:00+00:00","description":"花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。","headline":"First github page blog","mainEntityOfPage":{"@type":"WebPage","@id":"https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"},"url":"https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-05-29T19:21:00+08:00","datePublished":"2022-05-29T19:21:00+08:00","description":"花了一个多小时，总算把这个博客搭起来了。准备用这个博客用来记录写代码时遇到的坑，以及一些杂七杂八的东西。 这一篇顺便记录一下搭博客的时候遇到的坑。 搭建博客的整体思路 整体的思路来自油管上的这个视频。 创建两个repo。一个保存博客的源码，一个保存由工具生成的静态网站代码。 通过git的submodule功能，在一个文件夹下，同时管理两个repo。 Github CodeSpaces 很久之前注册了Code Spaces的测试计划。最近收到了进入测试计划的邮件，就想着用Code Spcaes去搭建和更新一个博客，同时也给自己留了个坑。 Jekyll Jekyll（不知道怎么念）是github默认的Pages模板。执行jekyll b生成静态的网站。 坑 不知什么原因，在Code Spaces中，管理submodule的时候push总是失败，提示没有权限。 Github Pages在选择theme之前没有生效。 摸爬滚打 尝试配置user.name和user.email 尝试配置ssh key 尝试配置remote url为user@github.com/reponame.git 最终的解决方案 只找到了一个能临时解决问题的方案。在github - settings - developer settings - personal access tokens中生成一个新的token，然后修改remote url为token@github.com/reponame.git","headline":"First github page blog","mainEntityOfPage":{"@type":"WebPage","@id":"https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"},"url":"https://savemejeff.github.io//jiang/jingwei/2022/05/29/first-github-page-blog.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://savemejeff.github.io//feed.xml" title="Jiang Jingwei&apos;s Blog" /></head>
 <body><header class="site-header" role="banner">
@@ -42,7 +42,7 @@
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">First github page blog</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2022-05-29T11:21:00+00:00" itemprop="datePublished">May 29, 2022
+      <time class="dt-published" datetime="2022-05-29T19:21:00+08:00" itemprop="datePublished">May 29, 2022
       </time></p>
   </header>
 
@@ -108,7 +108,7 @@
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>码龄一年半, 如有谬误, 烦请指正.</p>
+        <p>三本计科，啥也不会</p>
       </div>
     </div>
 
