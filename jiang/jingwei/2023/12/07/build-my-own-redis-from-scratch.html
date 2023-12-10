@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>C#中的ref关键字 | Jiang Jingwei’s Blog</title>
+<title>从零构建一个Redis | Jiang Jingwei’s Blog</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="C#中的ref关键字" />
+<meta property="og:title" content="从零构建一个Redis" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="开坑，用作学习笔记。" />
-<meta property="og:description" content="开坑，用作学习笔记。" />
+<meta name="description" content="1.Hello Server/Client Redis是一个server/client架构的系统，多个clients连接到一个server，server通过TCP连接接收请求并发送响应。 下面是一些system call的介绍： socket(): 创建一个socket并返回对应的文件描述符fd，文件描述符是一个integer，指向Linux内核中的资源，比如TCP连接，磁盘上的文件，正在监听的端口等。 bind(): 将一个地址与socket关联起来。 listen(): 使socket能接受连接。 accept(): 当一个client尝试连接到正在监听的地址，accept()会返回一个fd，代表connection socket。 read(), write(): 从TCP connection中读取或向TCP connection中写入数据。 下面的代码是一个基本的server/client架构的系统的实现。server和client会分别向对方发送一个”hello”，并打印出来自对方的数据。 一些需要注意的细节：我们给socket绑定地址和端口时，调用了ntohs()和ntohl()，这是因为TCP协议规定数据应该使用大端序（big-endian）来传输。ntohs()和ntohl()的作用是将网络字节序（big-endian）转换为主机字节序（在英特尔平台上是little-endian）。 // server.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void msg(const char *msg) { fprintf(stderr, &quot;%s\n&quot;, msg); } static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\n&quot;, err, msg); abort(); } static void do_something(int connfd) { char rbuf[64] = {}; ssize_t n = read(connfd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { msg(&quot;read() error&quot;); return; } printf(&quot;client says: %s\n&quot;, rbuf); char wbuf[] = &quot;world&quot;; write(connfd, wbuf, strlen(wbuf)); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } // this is needed for most server applications int val = 1; setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &amp;val, sizeof(val)); // bind struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(0); // wildcard address 0.0.0.0 int rv = bind(fd, (const sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;bind()&quot;); } // listen rv = listen(fd, SOMAXCONN); if (rv) { die(&quot;listen()&quot;); } while (true) { // accept struct sockaddr_in client_addr = {}; socklen_t socklen = sizeof(client_addr); int connfd = accept(fd, (struct sockaddr *)&amp;client_addr, &amp;socklen); if (connfd &lt; 0) { continue; // error } do_something(connfd); close(connfd); } return 0; } // client.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\n&quot;, err, msg); abort(); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(INADDR_LOOPBACK); // 127.0.0.1 int rv = connect(fd, (const struct sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;connect&quot;); } char msg[] = &quot;hello&quot;; write(fd, msg, strlen(msg)); char rbuf[64] = {}; ssize_t n = read(fd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { die(&quot;read&quot;); } printf(&quot;server says: %s\n&quot;, rbuf); close(fd); return 0; }" />
+<meta property="og:description" content="1.Hello Server/Client Redis是一个server/client架构的系统，多个clients连接到一个server，server通过TCP连接接收请求并发送响应。 下面是一些system call的介绍： socket(): 创建一个socket并返回对应的文件描述符fd，文件描述符是一个integer，指向Linux内核中的资源，比如TCP连接，磁盘上的文件，正在监听的端口等。 bind(): 将一个地址与socket关联起来。 listen(): 使socket能接受连接。 accept(): 当一个client尝试连接到正在监听的地址，accept()会返回一个fd，代表connection socket。 read(), write(): 从TCP connection中读取或向TCP connection中写入数据。 下面的代码是一个基本的server/client架构的系统的实现。server和client会分别向对方发送一个”hello”，并打印出来自对方的数据。 一些需要注意的细节：我们给socket绑定地址和端口时，调用了ntohs()和ntohl()，这是因为TCP协议规定数据应该使用大端序（big-endian）来传输。ntohs()和ntohl()的作用是将网络字节序（big-endian）转换为主机字节序（在英特尔平台上是little-endian）。 // server.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void msg(const char *msg) { fprintf(stderr, &quot;%s\n&quot;, msg); } static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\n&quot;, err, msg); abort(); } static void do_something(int connfd) { char rbuf[64] = {}; ssize_t n = read(connfd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { msg(&quot;read() error&quot;); return; } printf(&quot;client says: %s\n&quot;, rbuf); char wbuf[] = &quot;world&quot;; write(connfd, wbuf, strlen(wbuf)); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } // this is needed for most server applications int val = 1; setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &amp;val, sizeof(val)); // bind struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(0); // wildcard address 0.0.0.0 int rv = bind(fd, (const sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;bind()&quot;); } // listen rv = listen(fd, SOMAXCONN); if (rv) { die(&quot;listen()&quot;); } while (true) { // accept struct sockaddr_in client_addr = {}; socklen_t socklen = sizeof(client_addr); int connfd = accept(fd, (struct sockaddr *)&amp;client_addr, &amp;socklen); if (connfd &lt; 0) { continue; // error } do_something(connfd); close(connfd); } return 0; } // client.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\n&quot;, err, msg); abort(); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(INADDR_LOOPBACK); // 127.0.0.1 int rv = connect(fd, (const struct sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;connect&quot;); } char msg[] = &quot;hello&quot;; write(fd, msg, strlen(msg)); char rbuf[64] = {}; ssize_t n = read(fd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { die(&quot;read&quot;); } printf(&quot;server says: %s\n&quot;, rbuf); close(fd); return 0; }" />
 <link rel="canonical" href="https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html" />
 <meta property="og:url" content="https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html" />
 <meta property="og:site_name" content="Jiang Jingwei’s Blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-12-07T11:15:00+08:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="C#中的ref关键字" />
+<meta property="twitter:title" content="从零构建一个Redis" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-12-07T11:15:00+08:00","datePublished":"2023-12-07T11:15:00+08:00","description":"开坑，用作学习笔记。","headline":"C#中的ref关键字","mainEntityOfPage":{"@type":"WebPage","@id":"https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html"},"url":"https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-12-07T11:15:00+08:00","datePublished":"2023-12-07T11:15:00+08:00","description":"1.Hello Server/Client Redis是一个server/client架构的系统，多个clients连接到一个server，server通过TCP连接接收请求并发送响应。 下面是一些system call的介绍： socket(): 创建一个socket并返回对应的文件描述符fd，文件描述符是一个integer，指向Linux内核中的资源，比如TCP连接，磁盘上的文件，正在监听的端口等。 bind(): 将一个地址与socket关联起来。 listen(): 使socket能接受连接。 accept(): 当一个client尝试连接到正在监听的地址，accept()会返回一个fd，代表connection socket。 read(), write(): 从TCP connection中读取或向TCP connection中写入数据。 下面的代码是一个基本的server/client架构的系统的实现。server和client会分别向对方发送一个”hello”，并打印出来自对方的数据。 一些需要注意的细节：我们给socket绑定地址和端口时，调用了ntohs()和ntohl()，这是因为TCP协议规定数据应该使用大端序（big-endian）来传输。ntohs()和ntohl()的作用是将网络字节序（big-endian）转换为主机字节序（在英特尔平台上是little-endian）。 // server.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void msg(const char *msg) { fprintf(stderr, &quot;%s\\n&quot;, msg); } static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\\n&quot;, err, msg); abort(); } static void do_something(int connfd) { char rbuf[64] = {}; ssize_t n = read(connfd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { msg(&quot;read() error&quot;); return; } printf(&quot;client says: %s\\n&quot;, rbuf); char wbuf[] = &quot;world&quot;; write(connfd, wbuf, strlen(wbuf)); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } // this is needed for most server applications int val = 1; setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &amp;val, sizeof(val)); // bind struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(0); // wildcard address 0.0.0.0 int rv = bind(fd, (const sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;bind()&quot;); } // listen rv = listen(fd, SOMAXCONN); if (rv) { die(&quot;listen()&quot;); } while (true) { // accept struct sockaddr_in client_addr = {}; socklen_t socklen = sizeof(client_addr); int connfd = accept(fd, (struct sockaddr *)&amp;client_addr, &amp;socklen); if (connfd &lt; 0) { continue; // error } do_something(connfd); close(connfd); } return 0; } // client.cpp #include &lt;stdint.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; #include &lt;stdio.h&gt; #include &lt;errno.h&gt; #include &lt;unistd.h&gt; #include &lt;arpa/inet.h&gt; #include &lt;sys/socket.h&gt; #include &lt;netinet/ip.h&gt; static void die(const char *msg) { int err = errno; fprintf(stderr, &quot;[%d] %s\\n&quot;, err, msg); abort(); } int main() { int fd = socket(AF_INET, SOCK_STREAM, 0); if (fd &lt; 0) { die(&quot;socket()&quot;); } struct sockaddr_in addr = {}; addr.sin_family = AF_INET; addr.sin_port = ntohs(1234); addr.sin_addr.s_addr = ntohl(INADDR_LOOPBACK); // 127.0.0.1 int rv = connect(fd, (const struct sockaddr *)&amp;addr, sizeof(addr)); if (rv) { die(&quot;connect&quot;); } char msg[] = &quot;hello&quot;; write(fd, msg, strlen(msg)); char rbuf[64] = {}; ssize_t n = read(fd, rbuf, sizeof(rbuf) - 1); if (n &lt; 0) { die(&quot;read&quot;); } printf(&quot;server says: %s\\n&quot;, rbuf); close(fd); return 0; }","headline":"从零构建一个Redis","mainEntityOfPage":{"@type":"WebPage","@id":"https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html"},"url":"https://savemejeff.github.io//jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://savemejeff.github.io//feed.xml" title="Jiang Jingwei&apos;s Blog" /></head>
 <body><header class="site-header" role="banner">
@@ -40,14 +40,167 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">C#中的ref关键字</h1>
+    <h1 class="post-title p-name" itemprop="name headline">从零构建一个Redis</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="2023-12-07T11:15:00+08:00" itemprop="datePublished">Dec 7, 2023
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>开坑，用作学习笔记。</p>
+    <h2 id="1hello-serverclient">1.Hello Server/Client</h2>
+
+<p>Redis是一个server/client架构的系统，多个clients连接到一个server，server通过TCP连接接收请求并发送响应。</p>
+
+<p>下面是一些system call的介绍：</p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">socket()</code>: 创建一个socket并返回对应的文件描述符<code class="language-plaintext highlighter-rouge">fd</code>，文件描述符是一个integer，指向Linux内核中的资源，比如TCP连接，磁盘上的文件，正在监听的端口等。</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">bind()</code>: 将一个地址与socket关联起来。</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">listen()</code>: 使socket能接受连接。</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">accept()</code>: 当一个client尝试连接到正在监听的地址，<code class="language-plaintext highlighter-rouge">accept()</code>会返回一个<code class="language-plaintext highlighter-rouge">fd</code>，代表connection socket。</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">read()</code>, <code class="language-plaintext highlighter-rouge">write()</code>: 从TCP connection中读取或向TCP connection中写入数据。</p>
+  </li>
+</ol>
+
+<p>下面的代码是一个基本的server/client架构的系统的实现。server和client会分别向对方发送一个”hello”，并打印出来自对方的数据。</p>
+
+<p>一些需要注意的细节：我们给socket绑定地址和端口时，调用了<code class="language-plaintext highlighter-rouge">ntohs()</code>和<code class="language-plaintext highlighter-rouge">ntohl()</code>，这是因为TCP协议规定数据应该使用大端序（big-endian）来传输。<code class="language-plaintext highlighter-rouge">ntohs()</code>和<code class="language-plaintext highlighter-rouge">ntohl()</code>的作用是将网络字节序（big-endian）转换为主机字节序（在英特尔平台上是little-endian）。</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// server.cpp</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;netinet/ip.h&gt;</span><span class="cp">
+</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">msg</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">die</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="n">errno</span><span class="p">;</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"[%d] %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="n">abort</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">do_something</span><span class="p">(</span><span class="kt">int</span> <span class="n">connfd</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">rbuf</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kt">ssize_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">rbuf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">rbuf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">msg</span><span class="p">(</span><span class="s">"read() error"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"client says: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">rbuf</span><span class="p">);</span>
+
+    <span class="kt">char</span> <span class="n">wbuf</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"world"</span><span class="p">;</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">connfd</span><span class="p">,</span> <span class="n">wbuf</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">wbuf</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"socket()"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// this is needed for most server applications</span>
+    <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">setsockopt</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">val</span><span class="p">));</span>
+
+    <span class="c1">// bind</span>
+    <span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">addr</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">ntohs</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">ntohl</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>    <span class="c1">// wildcard address 0.0.0.0</span>
+    <span class="kt">int</span> <span class="n">rv</span> <span class="o">=</span> <span class="n">bind</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="n">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"bind()"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// listen</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">listen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">SOMAXCONN</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"listen()"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// accept</span>
+        <span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">client_addr</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="n">socklen_t</span> <span class="n">socklen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">client_addr</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">connfd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">client_addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">socklen</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">connfd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span>   <span class="c1">// error</span>
+        <span class="p">}</span>
+
+        <span class="n">do_something</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+        <span class="n">close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// client.cpp</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;errno.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;netinet/ip.h&gt;</span><span class="cp">
+</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">die</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="n">errno</span><span class="p">;</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"[%d] %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>
+    <span class="n">abort</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"socket()"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">struct</span> <span class="nc">sockaddr_in</span> <span class="n">addr</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">ntohs</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+    <span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">ntohl</span><span class="p">(</span><span class="n">INADDR_LOOPBACK</span><span class="p">);</span>  <span class="c1">// 127.0.0.1</span>
+    <span class="kt">int</span> <span class="n">rv</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="nc">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"connect"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">char</span> <span class="n">msg</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">msg</span><span class="p">));</span>
+
+    <span class="kt">char</span> <span class="n">rbuf</span><span class="p">[</span><span class="mi">64</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="kt">ssize_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">rbuf</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">rbuf</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">die</span><span class="p">(</span><span class="s">"read"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"server says: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">rbuf</span><span class="p">);</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
   </div><a class="u-url" href="/jiang/jingwei/2023/12/07/build-my-own-redis-from-scratch.html" hidden></a>
 </article>
